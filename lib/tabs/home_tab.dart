@@ -1,11 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// @dart=2.10
+
 import 'package:flutter/material.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class HomeTab extends StatelessWidget {
-  const HomeTab({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
 
@@ -39,7 +40,7 @@ class HomeTab extends StatelessWidget {
             ),
             FutureBuilder<QuerySnapshot>(
               future: Firestore.instance
-                  .collection("home").orderBy("pos").getDocuments(),
+                .collection("home").orderBy("pos").getDocuments(),
               builder: (context, snapshot){
                 if(!snapshot.hasData)
                   return SliverToBoxAdapter(
@@ -51,27 +52,26 @@ class HomeTab extends StatelessWidget {
                       ),
                     ),
                   );
-                else {
+                else
                   return SliverStaggeredGrid.count(
-                    crossAxisCount: 2,
+                      crossAxisCount: 2,
                     mainAxisSpacing: 1.0,
                     crossAxisSpacing: 1.0,
-                    staggeredTiles: snapshot.data?.documents.map(
-                        (doc){
-                          return StaggeredTile.count(doc.data["x"], doc.data["y"]);
-                        }
+                    staggeredTiles: snapshot.data.documents.map(
+                      (doc){
+                        return StaggeredTile.count(doc.data["x"], doc.data["y"]);
+                      }
                     ).toList(),
-                    children: snapshot.data?.documents.map(
-                        (doc){
-                          return FadeInImage.memoryNetwork(
+                    children: snapshot.data.documents.map(
+                      (doc){
+                        return FadeInImage.memoryNetwork(
                             placeholder: kTransparentImage,
                             image: doc.data["image"],
                             fit: BoxFit.cover,
-                          );
-                        }
+                        );
+                      }
                     ).toList(),
                   );
-                }
               },
             )
           ],

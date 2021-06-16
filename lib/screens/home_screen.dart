@@ -1,5 +1,12 @@
+// @dart=2.10
+
 import 'package:flutter/material.dart';
 import 'package:primeiro_app/tabs/home_tab.dart';
+import 'package:primeiro_app/tabs/orders_tab.dart';
+import 'package:primeiro_app/tabs/places_tab.dart';
+import 'package:primeiro_app/tabs/products_tab.dart';
+import 'package:primeiro_app/widgets/cart_button.dart';
+import 'package:primeiro_app/widgets/custom_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -7,12 +14,40 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return PageView(
       controller: _pageController,
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
-        HomeTab()
+        Scaffold(
+          body: HomeTab(),
+          drawer: CustomDrawer(_pageController),
+          floatingActionButton: CartButton(),
+        ),
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Produtos"),
+            centerTitle: true,
+          ),
+          drawer: CustomDrawer(_pageController),
+          body: ProductsTab(),
+          floatingActionButton: CartButton(),
+        ),
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Lojas"),
+            centerTitle: true,
+          ),
+          body: PlacesTab(),
+          drawer: CustomDrawer(_pageController),
+        ),
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Meus Pedidos"),
+            centerTitle: true,
+          ),
+          body: OrdersTab(),
+          drawer: CustomDrawer(_pageController),
+        )
       ],
     );
   }
